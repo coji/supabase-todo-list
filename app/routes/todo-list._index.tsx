@@ -5,8 +5,8 @@ import { supabase } from '~/lib/initSupabase'
 export const clientLoader = async () => {
   const { data } = await supabase.auth.getSession()
   if (!data.session) {
-    // ログイン済みなので TODO リスト画面にリダイレクト
-    throw redirect('/todo-list')
+    // 未ログインなのでログイン画面にリダイレクト
+    throw redirect('/')
   }
   return { session: data.session }
 }
