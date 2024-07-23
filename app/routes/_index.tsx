@@ -1,5 +1,6 @@
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
-import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
+import { Auth } from '@supabase/auth-ui-react'
+import { ThemeSupa } from '@supabase/auth-ui-shared'
 import TodoList from '~/components/TodoList'
 
 export default function Home() {
@@ -18,8 +19,9 @@ export default function Home() {
                 </span>
                 <Auth
                   supabaseClient={supabase}
+                  providers={[]}
                   appearance={{ theme: ThemeSupa }}
-                  theme="dark"
+                  theme="light"
                 />
               </div>
             </div>
