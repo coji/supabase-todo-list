@@ -1,65 +1,65 @@
-import type { Database } from '~/lib/schema';
-import { type Session, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useEffect, useState } from 'react';
+import type { Database } from '~/lib/schema'
+import { type Session, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useEffect, useState } from 'react'
 
-type Todos = Database['public']['Tables']['todos']['Row'];
+type Todos = Database['public']['Tables']['todos']['Row']
 
 export default function TodoList({ session }: { session: Session }) {
-  const supabase = useSupabaseClient<Database>();
-  const [todos, setTodos] = useState<Todos[]>([]);
-  const [newTaskText, setNewTaskText] = useState('');
-  const [errorText, setErrorText] = useState('');
+  const supabase = useSupabaseClient<Database>()
+  const [todos, setTodos] = useState<Todos[]>([])
+  const [newTaskText, setNewTaskText] = useState('')
+  const [errorText, setErrorText] = useState('')
 
-  const user = session.user;
+  const user = session.user
 
   useEffect(() => {
     const fetchTodos = async () => {
       const { data: todos, error } = await supabase
         .from('todos')
         .select('*')
-        .order('id', { ascending: true });
+        .order('id', { ascending: true })
 
-      if (error) console.log('error', error);
-      else setTodos(todos);
-    };
+      if (error) console.log('error', error)
+      else setTodos(todos)
+    }
 
-    fetchTodos();
-  }, [supabase]);
+    fetchTodos()
+  }, [supabase])
 
   const addTodo = async (taskText: string) => {
-    const task = taskText.trim();
+    const task = taskText.trim()
     if (task.length) {
       const { data: todo, error } = await supabase
         .from('todos')
         .insert({ task, user_id: user.id })
         .select()
-        .single();
+        .single()
 
       if (error) {
-        setErrorText(error.message);
+        setErrorText(error.message)
       } else {
-        setTodos([...todos, todo]);
-        setNewTaskText('');
+        setTodos([...todos, todo])
+        setNewTaskText('')
       }
     }
-  };
+  }
 
   const deleteTodo = async (id: number) => {
     try {
-      await supabase.from('todos').delete().eq('id', id).throwOnError();
-      setTodos(todos.filter((x) => x.id !== id));
+      await supabase.from('todos').delete().eq('id', id).throwOnError()
+      setTodos(todos.filter((x) => x.id !== id))
     } catch (error) {
-      console.log('error', error);
+      console.log('error', error)
     }
-  };
+  }
 
   return (
     <div className="w-full">
       <h1 className="mb-12">Todo List.</h1>
       <form
         onSubmit={(e) => {
-          e.preventDefault();
-          addTodo(newTaskText);
+          e.preventDefault()
+          addTodo(newTaskText)
         }}
         className="flex gap-2 my-2"
       >
@@ -69,8 +69,8 @@ export default function TodoList({ session }: { session: Session }) {
           placeholder="make coffee"
           value={newTaskText}
           onChange={(e) => {
-            setErrorText('');
-            setNewTaskText(e.target.value);
+            setErrorText('')
+            setNewTaskText(e.target.value)
           }}
         />
         <button className="btn-black" type="submit">
@@ -90,12 +90,12 @@ export default function TodoList({ session }: { session: Session }) {
         </ul>
       </div>
     </div>
-  );
+  )
 }
 
 const Todo = ({ todo, onDelete }: { todo: Todos; onDelete: () => void }) => {
-  const supabase = useSupabaseClient<Database>();
-  const [isCompleted, setIsCompleted] = useState(todo.is_complete);
+  const supabase = useSupabaseClient<Database>()
+  const [isCompleted, setIsCompleted] = useState(todo.is_complete)
 
   const toggle = async () => {
     try {
@@ -105,13 +105,13 @@ const Todo = ({ todo, onDelete }: { todo: Todos; onDelete: () => void }) => {
         .eq('id', todo.id)
         .throwOnError()
         .select()
-        .single();
+        .single()
 
-      if (data) setIsCompleted(data.is_complete);
+      if (data) setIsCompleted(data.is_complete)
     } catch (error) {
-      console.log('error', error);
+      console.log('error', error)
     }
-  };
+  }
 
   return (
     <li className="w-full block cursor-pointer hover:bg-gray-200 focus:outline-none focus:bg-gray-200 transition duration-150 ease-in-out">
@@ -131,9 +131,9 @@ const Todo = ({ todo, onDelete }: { todo: Todos; onDelete: () => void }) => {
         </div>
         <button
           onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onDelete();
+            e.preventDefault()
+            e.stopPropagation()
+            onDelete()
           }}
           className="w-4 h-4 ml-2 border-2 hover:border-black rounded"
         >
@@ -151,11 +151,11 @@ const Todo = ({ todo, onDelete }: { todo: Todos; onDelete: () => void }) => {
         </button>
       </div>
     </li>
-  );
-};
+  )
+}
 
 const Alert = ({ text }: { text: string }) => (
   <div className="rounded-md bg-red-100 p-4 my-3">
     <div className="text-sm leading-5 text-red-700">{text}</div>
   </div>
-);
+)

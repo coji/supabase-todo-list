@@ -1,10 +1,10 @@
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
-import TodoList from '~/components/TodoList';
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
+import TodoList from '~/components/TodoList'
 
 export default function Home() {
-  const session = useSession();
-  const supabase = useSupabaseClient();
+  const session = useSession()
+  const supabase = useSupabaseClient()
 
   return (
     <>
@@ -34,8 +34,8 @@ export default function Home() {
               type="button"
               className="btn-black w-full mt-12"
               onClick={async () => {
-                const { error } = await supabase.auth.signOut();
-                if (error) console.log('Error logging out:', error.message);
+                const { error } = await supabase.auth.signOut()
+                if (error) console.log('Error logging out:', error.message)
               }}
             >
               Logout
@@ -44,5 +44,5 @@ export default function Home() {
         )}
       </div>
     </>
-  );
+  )
 }

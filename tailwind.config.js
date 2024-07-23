@@ -4,10 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        'accent-1': '#333',
-      },
-    },
+        'accent-1': '#333'
+      }
+    }
   },
   variants: {},
-  plugins: [],
-};
+  plugins: []
+}
