@@ -1,5 +1,5 @@
-import { Database } from '@/lib/schema'
-import { Session, useSupabaseClient } from '@supabase/auth-helpers-react'
+import type { Database } from '~/lib/schema'
+import { type Session, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 
 type Todos = Database['public']['Tables']['todos']['Row']
@@ -27,7 +27,7 @@ export default function TodoList({ session }: { session: Session }) {
   }, [supabase])
 
   const addTodo = async (taskText: string) => {
-    let task = taskText.trim()
+    const task = taskText.trim()
     if (task.length) {
       const { data: todo, error } = await supabase
         .from('todos')
@@ -47,7 +47,7 @@ export default function TodoList({ session }: { session: Session }) {
   const deleteTodo = async (id: number) => {
     try {
       await supabase.from('todos').delete().eq('id', id).throwOnError()
-      setTodos(todos.filter((x) => x.id != id))
+      setTodos(todos.filter((x) => x.id !== id))
     } catch (error) {
       console.log('error', error)
     }
@@ -81,7 +81,11 @@ export default function TodoList({ session }: { session: Session }) {
       <div className="bg-white shadow overflow-hidden rounded-md">
         <ul>
           {todos.map((todo) => (
-            <Todo key={todo.id} todo={todo} onDelete={() => deleteTodo(todo.id)} />
+            <Todo
+              key={todo.id}
+              todo={todo}
+              onDelete={() => deleteTodo(todo.id)}
+            />
           ))}
         </ul>
       </div>
@@ -113,7 +117,9 @@ const Todo = ({ todo, onDelete }: { todo: Todos; onDelete: () => void }) => {
     <li className="w-full block cursor-pointer hover:bg-gray-200 focus:outline-none focus:bg-gray-200 transition duration-150 ease-in-out">
       <div className="flex items-center px-4 py-4 sm:px-6">
         <div className="min-w-0 flex-1 flex items-center">
-          <div className="text-sm leading-5 font-medium truncate">{todo.task}</div>
+          <div className="text-sm leading-5 font-medium truncate">
+            {todo.task}
+          </div>
         </div>
         <div>
           <input
@@ -131,7 +137,11 @@ const Todo = ({ todo, onDelete }: { todo: Todos; onDelete: () => void }) => {
           }}
           className="w-4 h-4 ml-2 border-2 hover:border-black rounded"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="gray">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="gray"
+          >
             <path
               fillRule="evenodd"
               d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"

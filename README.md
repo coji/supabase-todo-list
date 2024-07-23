@@ -73,3 +73,11 @@ create policy "Individuals can delete their own todos." on todos for
 - [Supabase](https://supabase.com)
 
 Supabase is open source. We'd love for you to follow along and get involved at https://github.com/supabase/supabase
+
+# Migrate from Nextjs pages router to Remix
+
+```sh
+pnpm i @remix-run/react @remix-run/node @vercel/remix @remix-run/serve isbot react@18.3 react-dom@18.3
+pnpm i -D tailwindcss postcss  @remix-run/dev autoprefixer vite vite-tsconfig-paths typescript @types/node @types/react@18.3 @types/react-dom@18.3
+pnpm remove @next/font eslint eslint-config-next next concurrently
+```
