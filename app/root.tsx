@@ -1,4 +1,3 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node'
 import {
   Links,
   Meta,
@@ -6,16 +5,10 @@ import {
   Scripts,
   ScrollRestoration
 } from '@remix-run/react'
-import tailwindCss from './tailwind.css?url'
-import appCss from './app.css?url'
+import './styles/tailwind.css'
 
 import { SessionContextProvider } from '@supabase/auth-helpers-react'
-import { supabase } from '~/lib/initSupabase'
-
-export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: tailwindCss },
-  { rel: 'stylesheet', href: appCss }
-]
+import { supabase } from '~/lib/supabase'
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
