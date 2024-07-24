@@ -1,5 +1,4 @@
 import { redirect, useNavigate } from '@remix-run/react'
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { useEffect } from 'react'
@@ -15,17 +14,18 @@ export const clientLoader = async () => {
 }
 
 export default function Home() {
-  const session = useSession()
-  const supabase = useSupabaseClient()
   const navigate = useNavigate()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     // Auth コンポーネントでログインすると session が更新されるのでここでリダイレクト
-    // ほんとは clientAction で redirect したいけど、その場合認証画面自作になるので一旦。
-    if (session) {
-      navigate('/todo-list')
-    }
-  }, [session, navigate])
+    // ほんとは clientAction で redirect したいけど、その場合ユーザ登録や認証画面が自作になるので一旦。
+    supabase.auth.onAuthStateChange((_, session) => {
+      if (session) {
+        navigate('/todo-list')
+      }
+    })
+  }, [])
 
   return (
     <div className="w-full h-full bg-gray-200">
@@ -35,6 +35,7 @@ export default function Home() {
             <span className="font-sans text-4xl text-center pb-2 mb-1 border-b mx-4 align-center">
               Login
             </span>
+
             <Auth
               supabaseClient={supabase}
               providers={[]}
