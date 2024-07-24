@@ -3,12 +3,11 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 import { useEffect } from 'react'
-import { supabase, requireUser } from '~/lib/supabase'
+import { supabase, getUser } from '~/lib/supabase'
 
 export const clientLoader = async () => {
-  requireUser()
-  const { data } = await supabase.auth.getSession()
-  if (data.session) {
+  const user = await getUser()
+  if (user) {
     // ログイン済みなので TODO リスト画面にリダイレクト
     throw redirect('/todo-list')
   }
