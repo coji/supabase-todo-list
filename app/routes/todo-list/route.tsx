@@ -1,4 +1,4 @@
-import { supabase } from '~/lib/initSupabase'
+import { supabase } from '~/lib/supabase'
 import { Form, Outlet, redirect } from '@remix-run/react'
 
 export const clientAction = async () => {
@@ -14,7 +14,6 @@ export default function TodoListLayout() {
         style={{ minWidth: 250, maxWidth: 600, margin: 'auto' }}
       >
         <Outlet />
-
         <Form method="post">
           <button type="submit" className="btn-black w-full mt-12">
             Logout
