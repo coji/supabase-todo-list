@@ -38,7 +38,7 @@ export default function Home() {
 
             <Auth
               supabaseClient={supabase}
-              providers={[]}
+              providers={['google']}
               appearance={{ theme: ThemeSupa }}
               theme="light"
             />
