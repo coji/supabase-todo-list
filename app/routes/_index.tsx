@@ -29,7 +29,8 @@ export default function Home() {
 
   return (
     <div className="w-full h-full bg-gray-200">
-      <div className="min-w-full min-h-screen flex items-center justify-center">
+      <div className="min-w-full min-h-screen flex items-center justify-center flex-col">
+        <h1 className="mx-auto">Remix Supabase Todo List</h1>
         <div className="w-full h-full flex justify-center items-center p-4">
           <div className="w-full h-full sm:h-auto sm:w-2/5 max-w-sm p-5 bg-white shadow flex flex-col text-base">
             <span className="font-sans text-4xl text-center pb-2 mb-1 border-b mx-4 align-center">
@@ -44,6 +45,24 @@ export default function Home() {
             />
           </div>
         </div>
+        <footer className="flex justify-center gap-4">
+          <a
+            className="underline"
+            href="https://github.com/coji/supabase-todo-list"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Source Code
+          </a>
+          <a
+            className="underline"
+            href="https://x.com/techtalkjp"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Author
+          </a>
+        </footer>
       </div>
     </div>
   )
